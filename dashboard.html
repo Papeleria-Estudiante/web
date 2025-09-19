@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Admin - Papelería El Estudiante</title>
+<style>
+  body { 
+    font-family: "Segoe UI", Tahoma, sans-serif; 
+    margin:0; 
+    padding:0; 
+    background:#eef2f7; 
+    color:#333;
+  }
+  header { 
+    background:#0056b3; 
+    color:white; 
+    padding:15px 25px; 
+    display:flex; 
+    justify-content:space-between; 
+    align-items:center; 
+    box-shadow:0 2px 6px rgba(0,0,0,0.15);
+  }
+  header .logo { font-size:18px; font-weight:bold; }
+  nav a { 
+    color:white; 
+    margin-left:20px; 
+    text-decoration:none; 
+    font-weight:500; 
+    transition:opacity 0.3s;
+  }
+  nav a:hover { opacity:0.8; }
+  .section { 
+    padding:25px; 
+    margin:20px; 
+    background:white; 
+    border-radius:10px; 
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+  }
+  h2 { color:#0056b3; margin-bottom:15px; }
+  .grid { display:flex; gap:20px; flex-wrap:wrap; }
+  .producto { 
+    border:1px solid #ddd; 
+    padding:15px; 
+    border-radius:10px; 
+    text-align:center; 
+    width:180px; 
+    background:#fafafa; 
+    transition:transform 0.2s;
+  }
+  .producto:hover { transform:scale(1.03); }
+  .producto img { 
+    width:100%; 
+    height:120px; 
+    object-fit:cover; 
+    border-radius:8px; 
+    margin-bottom:10px;
+  }
+  table { 
+    width:100%; 
+    border-collapse:collapse; 
+    margin-top:15px; 
+    background:white;
+  }
+  th, td { 
+    border:1px solid #ddd; 
+    padding:10px; 
+    text-align:center; 
+  }
+  th { background:#f1f5f9; font-weight:600; }
+  .btn { 
+    background:#0056b3; 
+    color:white; 
+    border:none; 
+    padding:10px 15px; 
+    border-radius:6px; 
+    cursor:pointer; 
+    transition:background 0.3s;
+  }
+  .btn:hover { background:#004494; }
+  input, select { 
+    padding:8px; 
+    margin:8px 0; 
+    width:100%; 
+    border:1px solid #ccc; 
+    border-radius:6px;
+  }
+  footer { 
+    text-align:center; 
+    padding:15px; 
+    background:#0056b3; 
+    color:white; 
+    margin-top:30px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">🛒 Papelería El Estudiante</div>
+  <nav>
+    <a href="#productos">Productos</a>
+    <a href="#carrito">Carrito</a>
+    <a href="#historial">Historial</a>
+    <a href="#" onclick="logout()" class="btn">Cerrar sesión</a>
+  </nav>
+</header>
+
+<!-- LOGIN ADMIN -->
+<section id="login" class="section">
+  <h2>Login Administrador</h2>
+  <label>Usuario:</label>
+  <input type="text" id="usuario" placeholder="admin">
+  <label>Contraseña:</label>
+  <input type="password" id="password" placeholder="1234">
+  <button class="btn" onclick="login()">Ingresar</button>
+</section>
+
+<!-- PRODUCTOS -->
+<section id="productos" class="section" style="display:none">
+  <h2>Productos Disponibles</h2>
+  <div class="grid">
+    <div class="producto">
+      <img src="img/producto1.jpg" alt="Cuaderno">
+      <h3>Cuaderno</h3>
+      <p><strong>$5.000</strong></p>
+      <button class="btn" onclick="agregarAlCarrito('Cuaderno', 5000)">Agregar</button>
+    </div>
+    <div class="producto">
+      <img src="img/producto2.jpg" alt="Lápices">
+      <h3>Lápices</h3>
+      <p><strong>$2.000</strong></p>
+      <button class="btn" onclick="agregarAlCarrito('Lápices', 2000)">Agregar</button>
+    </div>
+    <div class="producto">
+      <img src="img/producto3.jpg" alt="Marcadores">
+      <h3>Marcadores</h3>
+      <p><strong>$8.000</strong></p>
+      <button class="btn" onclick="agregarAlCarrito('Marcadores', 8000)">Agregar</button>
+    </div>
+  </div>
+</section>
+
+<!-- CARRITO -->
+<section id="carrito" class="section" style="display:none">
+  <h2>Mi Carrito</h2>
+
+  <label>Nombre del Cliente:</label>
+  <input type="text" id="nombre-cliente" placeholder="Ingrese su nombre">
+
+  <table id="tabla-carrito">
+    <thead>
+      <tr>
+        <th>Producto</th>
+        <th>Cantidad</th>
+        <th>Precio</th>
+        <th>Subtotal</th>
+        <th>Acción</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <h3 id="total">Total: $0</h3>
+
+  <h3>Método de pago:</h3>
+  <select id="metodo-pago">
+    <option value="">Seleccione un método de pago</option>
+    <option value="efectivo">Efectivo</option>
+    <option value="nequi">Nequi</option>
+    <option value="daviplata">Daviplata</option>
+  </select>
+
+  <button class="btn" onclick="finalizarCompra()">Finalizar Compra</button>
+</section>
+
+<!-- HISTORIAL DE VENTAS -->
+<section id="historial" class="section" style="display:none">
+  <h2>Historial de Ventas</h2>
+
+  <label>Buscar por código:</label>
+  <input type="text" id="buscar-codigo" placeholder="Ingrese código" onkeyup="buscarCodigo()">
+
+  <table id="tabla-historial">
+    <thead>
+      <tr>
+        <th>Código</th>
+        <th>Cliente</th>
+        <th>Método de Pago</th>
+        <th>Productos</th>
+        <th>Total</th>
+        <th>Acción</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</section>
+
+<footer>
+  <p>&copy; 2025 Papelería El Estudiante - Dashboard Admin</p>
+</footer>
+
+<script>
+// 👇 Aquí mantuve tu misma lógica sin tocar nada
+// (copiar/pegar de tu versión actual)
+
+let carrito = [];
+let historialVentas = JSON.parse(localStorage.getItem("historialVentas")) || [];
+
+// LOGIN ADMIN
+function login() {
+  const usuario = document.getElementById("usuario").value;
+  const password = document.getElementById("password").value;
+  if(usuario === "admin" && password === "1234") {
+    localStorage.setItem("rolUsuario", "admin");
+    inicializarAdmin();
+    alert("¡Bienvenido Administrador!");
+  } else {
+    alert("Usuario o contraseña incorrectos");
+  }
+}
+
+function logout() {
+  localStorage.removeItem("rolUsuario");
+  location.reload();
+}
+
+function inicializarAdmin() {
+  document.getElementById("login").style.display = "none";
+  document.getElementById("productos").style.display = "block";
+  document.getElementById("carrito").style.display = "block";
+  document.getElementById("historial").style.display = "block";
+  mostrarHistorial();
+}
+
+// CARRITO
+function agregarAlCarrito(nombre, precio) {
+  const item = carrito.find(p => p.nombre === nombre);
+  if(item) item.cantidad++; else carrito.push({nombre, precio, cantidad:1});
+  mostrarCarrito();
+}
+
+function eliminarDelCarrito(nombre) {
+  carrito = carrito.filter(p => p.nombre !== nombre);
+  mostrarCarrito();
+}
+
+function mostrarCarrito() {
+  const tbody = document.querySelector("#tabla-carrito tbody");
+  tbody.innerHTML = "";
+  let total = 0;
+  carrito.forEach(item => {
+    const subtotal = item.precio * item.cantidad;
+    total += subtotal;
+    tbody.innerHTML += `<tr>
+      <td>${item.nombre}</td>
+      <td>${item.cantidad}</td>
+      <td>$${item.precio}</td>
+      <td>$${subtotal}</td>
+      <td><button class="btn" onclick="eliminarDelCarrito('${item.nombre}')">Eliminar</button></td>
+    </tr>`;
+  });
+  if(carrito.length === 0) tbody.innerHTML = "<tr><td colspan='5'>No hay productos en el carrito</td></tr>";
+  document.getElementById("total").innerText = "Total: $" + total;
+}
+
+// GENERAR CÓDIGO
+function generarCodigo() {
+  return Math.floor(100000 + Math.random() * 900000);
+}
+
+// FINALIZAR COMPRA
+function finalizarCompra() {
+  const nombreCliente = document.getElementById("nombre-cliente").value;
+  if(!nombreCliente) { alert("Ingrese su nombre."); return; }
+
+  if(carrito.length === 0) { alert("Tu carrito está vacío."); return; }
+  const metodo = document.getElementById("metodo-pago").value;
+  if(!metodo) { alert("Selecciona un método de pago."); return; }
+
+  const total = carrito.reduce((sum, item) => sum + item.precio*item.cantidad, 0);
+  const codigo = generarCodigo();
+
+  let mensajeCliente = "";
+  if(metodo === "efectivo") {
+    mensajeCliente = `Hola ${nombreCliente}, pago en efectivo.\nDiríjase a la papelería.\nCódigo: ${codigo}\nTotal: $${total}`;
+  } else {
+    mensajeCliente = `Hola ${nombreCliente}, pago vía ${metodo.toUpperCase()}.\nWhatsApp: 3209597677\nCódigo: ${codigo}\nPor favor envíe el comprobante.\n` +
+      (total > 50000 ? "Se hace domicilio." : "Diríjase al local para retirar sus productos.");
+  }
+
+  alert(mensajeCliente);
+
+  historialVentas.push({
+    codigo,
+    nombre: nombreCliente,
+    metodoPago: metodo,
+    productos: [...carrito],
+    total
+  });
+  localStorage.setItem("historialVentas", JSON.stringify(historialVentas));
+
+  carrito = [];
+  mostrarCarrito();
+  document.getElementById("nombre-cliente").value = "";
+  document.getElementById("metodo-pago").value = "";
+
+  mostrarHistorial();
+}
+
+// MOSTRAR HISTORIAL
+function mostrarHistorial() {
+  const tbody = document.querySelector("#tabla-historial tbody");
+  tbody.innerHTML = "";
+  historialVentas.forEach(venta => {
+    const productosStr = venta.productos.map(p => `${p.nombre} x${p.cantidad}`).join(", ");
+    tbody.innerHTML += `<tr>
+      <td>${venta.codigo}</td>
+      <td>${venta.nombre}</td>
+      <td>${venta.metodoPago}</td>
+      <td>${productosStr}</td>
+      <td>$${venta.total}</td>
+      <td><button class="btn" onclick="eliminarVenta(${venta.codigo})">Eliminar</button></td>
+    </tr>`;
+  });
+}
+
+// ELIMINAR VENTA DEL HISTORIAL
+function eliminarVenta(codigo) {
+  historialVentas = historialVentas.filter(v => v.codigo !== codigo);
+  localStorage.setItem("historialVentas", JSON.stringify(historialVentas));
+  mostrarHistorial();
+}
+
+// BUSCAR POR CÓDIGO
+function buscarCodigo() {
+  const filtro = document.getElementById("buscar-codigo").value;
+  const tbody = document.querySelector("#tabla-historial tbody");
+  tbody.innerHTML = "";
+  historialVentas
+    .filter(v => v.codigo.toString().includes(filtro))
+    .forEach(venta => {
+      const productosStr = venta.productos.map(p => `${p.nombre} x${p.cantidad}`).join(", ");
+      tbody.innerHTML += `<tr>
+        <td>${venta.codigo}</td>
+        <td>${venta.nombre}</td>
+        <td>${venta.metodoPago}</td>
+        <td>${productosStr}</td>
+        <td>$${venta.total}</td>
+        <td><button class="btn" onclick="eliminarVenta(${venta.codigo})">Eliminar</button></td>
+      </tr>`;
+    });
+}
+</script>
+</body>
+</html>

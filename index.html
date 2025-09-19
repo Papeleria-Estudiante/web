@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Papelería El Estudiante</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="logo">📚 Papelería El Estudiante</div>
+        <nav id="menu">
+            <a href="#inicio">Inicio</a>
+            <a href="#portafolio">Portafolio</a>
+            <a href="#tienda">Tienda</a>
+            <a href="#quienes">Quiénes Somos</a>
+            <a href="#ubicacion">Ubicación</a>
+            <a href="mailto:papeleria@ejemplo.com">Correo</a>
+            <a href="#contacto">Contacto</a>
+        </nav>
+        <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+    </header>
+
+    <!-- INICIO -->
+    <section class="inicio">
+        <div class="inicio-contenido">
+            <img src="img/logopapeleria.png" alt="Logo Papelería El Estudiante" class="inicio-logo">
+            <h1>Bienvenido a Papelería El Estudiante</h1>
+            <p>Todo lo que necesitas en artículos escolares, de oficina, hogar y aseo.</p>
+
+            <!-- BOTONES DE ACCESO -->
+            <div class="botones-inicio">
+                <a href="login.html" class="btn">Iniciar Sesión</a>
+                <a href="register.html" class="btn">Registrarse (Usuario)</a>
+                <a href="login.html" class="btn">Entrar como Admin</a>
+            </div>
+
+            <a href="#productos" class="btn">Ver Productos</a>
+        </div>
+    </section>
+
+    <!-- PORTAFOLIO -->
+    <section id="portafolio" class="section fondo-animado">
+        <h2>Portafolio</h2>
+        <div class="grid">
+            <img src="img/articulo1.jpg" alt="Producto 1">
+            <img src="img/articulo2.jpg" alt="Producto 2">
+            <img src="img/articulo3.jpg" alt="Producto 3">
+            <img src="img/articulo4.jpg" alt="Producto 4">
+        </div>
+    </section>
+
+    <!-- TIENDA -->
+    <section id="tienda" class="section fondo-animado">
+        <h2>Tienda</h2>
+        <div class="grid">
+            <div class="producto">
+                <img src="img/producto1.jpg" alt="Producto 1">
+                <h3>Cuaderno</h3>
+                <p>$5.000</p>
+                <button>Comprar</button>
+            </div>
+            <div class="producto">
+                <img src="img/producto2.jpg" alt="Producto 2">
+                <h3>Lápices</h3>
+                <p>$2.000</p>
+                <button>Comprar</button>
+            </div>
+            <div class="producto">
+                <img src="img/producto3.jpg" alt="Producto 3">
+                <h3>Marcadores</h3>
+                <p>$8.000</p>
+                <button>Comprar</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- QUIÉNES SOMOS -->
+    <section id="quienes" class="section fondo-animado">
+        <h2>Quiénes Somos</h2>
+        <p>En Papelería El Estudiante creemos que cada idea merece ser escrita, cada proyecto merece tomar forma y cada meta debe estar bien equipada para hacerse realidad. Somos un emprendimiento nacido en mayo de 2024 con un propósito claro: ofrecer a nuestra comunidad un lugar donde encontrar todo lo necesario para la escuela, la oficina y el hogar, siempre acompañado de un servicio amable, cercano y confiable.
+
+Nuestra historia comenzó con un sueño y la determinación de hacerlo realidad. Hoy trabajamos cada día con pasión para que nuestros clientes no solo encuentren productos, sino también soluciones y motivación para seguir aprendiendo, creando y creciendo.
+
+En Papelería El Estudiante no solo vendemos artículos, vendemos herramientas para que tus ideas cobren vida. Porque creemos que el éxito empieza con una hoja en blanco, un lápiz y el deseo de hacer las cosas bien.</p>
+    </section>
+
+    <!-- UBICACIÓN -->
+    <section id="ubicacion" class="section fondo-animado">
+        <h2>Ubicación</h2>
+        <iframe src="https://www.google.com/maps/embed?pb=..." 
+                width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+    </section>
+
+    <!-- CONTACTO -->
+    <section id="contacto" class="section">
+        <h2>Contacto</h2>
+        <p>Escríbenos por WhatsApp o correo electrónico.</p>
+        <a href="https://wa.me/573209597677" class="btn">WhatsApp</a>
+        <a href="mailto:papeleriaestudiante003@gmail.com" class="btn">Correo</a>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2025 Papelería El Estudiante. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
